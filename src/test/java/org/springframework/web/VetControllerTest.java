@@ -19,7 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class VetControllerTest {
@@ -51,6 +55,20 @@ public class VetControllerTest {
         // Then the model contains the vets, and the expected view is returned
         assertThat(result).isEqualTo("vets/vetList");
         assertThat(((Vets) map.get("vets")).getVetList()).containsExactly(vet1, vet2);
+
+    }
+
+    @Test
+    void showVetListModelPopulatedWithVetsAlternative() {
+
+        // When called
+        Map<String, Object> map = mock(HashMap.class);
+        String result = vetController.showVetList(map);
+
+        // Then the map and clinicService are called
+        then(clinicService).should().findVets();
+        then(map).should().put(anyString(), any(Vets.class));
+        assertThat(result).isEqualToIgnoringCase("vets/vetList");
 
     }
 
