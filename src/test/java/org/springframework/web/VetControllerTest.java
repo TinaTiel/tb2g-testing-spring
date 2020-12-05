@@ -30,20 +30,19 @@ public class VetControllerTest {
     @InjectMocks
     VetController vetController;
 
+    Vet vet1, vet2;
+
     @BeforeEach
     void setUp() {
-
+        vet1 = new Vet();
+        vet1.setFirstName("Nancy");
+        vet2 = new Vet();
+        vet2.setFirstName("Bob");
+        given(clinicService.findVets()).willReturn(Arrays.asList(vet1, vet2));
     }
 
     @Test
     void showVetListModelPopulatedWithVets() {
-
-        // Given the clinic service returns vets
-        Vet vet1 = new Vet();
-        vet1.setFirstName("Nancy");
-        Vet vet2 = new Vet();
-        vet2.setFirstName("Bob");
-        given(clinicService.findVets()).willReturn(Arrays.asList(vet1, vet2));
 
         // When called
         Map<String, Object> map = new HashMap<>();
@@ -57,13 +56,6 @@ public class VetControllerTest {
 
     @Test
     void showResourcesVetListPopulatedWithVets() {
-
-        // Given the clinic service returns vets
-        Vet vet1 = new Vet();
-        vet1.setFirstName("Nancy");
-        Vet vet2 = new Vet();
-        vet2.setFirstName("Bob");
-        given(clinicService.findVets()).willReturn(Arrays.asList(vet1, vet2));
 
         // When called
         Map<String, Object> map = new HashMap<>();
